@@ -1,14 +1,21 @@
-import { UserButton } from "@clerk/nextjs"
+
 import { MainNav } from "./mainNav"
 import StoreSwitcher from "./storeSwitcher"
-import { auth } from "@clerk/nextjs/server"
+import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import prismadb from "@/lib/prismadb"
 import { ModeToggle } from "./theme-toggle"
+import { CircleUser } from "lucide-react"
+import Image from "next/image"
+import { UserOptions } from "./user-options"
+import { SessionProvider } from "next-auth/react"
 
 
 const Navbar =async () => {
-  const {userId}=auth()
+  const session= await auth()
+  const userId=session?.user.id
+  const image=session?.user.image
+  
   if(!userId) redirect("/sign-in")
   const stores=await prismadb.store.findMany({
 where:{
@@ -20,11 +27,7 @@ where:{
       <div>
       <MainNav/>
       </div>
-      <div className=" flex items-center gap-x-3 ml-auto">
-        <ModeToggle/>
-        <UserButton />
-
-      </div>
+      <SessionProvider><UserOptions/></SessionProvider>
     </div>
   )
 }
