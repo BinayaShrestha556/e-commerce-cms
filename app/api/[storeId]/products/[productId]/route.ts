@@ -1,5 +1,6 @@
+import { useServerUser } from "@/hooks/use-server-user";
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs/server";
+
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -32,7 +33,8 @@ export async function PATCH(
   { params }: { params: { storeId: string; productId: string } }
 ) {
   try {
-    const { userId } = auth();
+      const user =await useServerUser();
+       const userId=user?.id
     if (!userId) return new NextResponse("unauthenticated", { status: 401 });
     const body = await req.json();
     const {
@@ -110,7 +112,8 @@ export async function DELETE(
   { params }: { params: { storeId: string; productId: string } }
 ) {
   try {
-    const { userId } = auth();
+    const user =await useServerUser();
+    const userId=user?.id
     if (!userId) return new NextResponse("unauthenticated", { status: 401 });
     const storeByUserId = await prismadb.store.findFirst({
       where: {

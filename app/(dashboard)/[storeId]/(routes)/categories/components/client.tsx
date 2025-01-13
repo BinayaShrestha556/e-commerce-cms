@@ -19,7 +19,7 @@ const CategoryClient: React.FC<BillboardProps> = ({data}) => {
   return (
     <>
     <div className="flex items-center justify-between">
-<Heading title={`Categories (${data.length})`} description="maange Categories for your store"/>
+<Heading title={`Categories`} description="maange Categories for your store"/>
 <Button onClick={()=>router.push(`/${params.storeId}/categories/new`)}>
     <Plus className="mr-2 h-4 w-4"/>
     Add new

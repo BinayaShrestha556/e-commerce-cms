@@ -1,5 +1,5 @@
+import { useServerUser } from "@/hooks/use-server-user";
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -7,7 +7,8 @@ export async function POST(
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const { userId } = auth();
+      const user =await useServerUser();
+       const userId=user?.id
     if (!userId) return new NextResponse("unauthenticated", { status: 401 });
     const body = await req.json();
     const { name,value } = body;
@@ -24,13 +25,8 @@ export async function POST(
     if(!storeByUserId){
         return new NextResponse("unauthorized",{status:403})
     }
-    const order =  await prismadb.order.create({
-     
-      data:{
-        name,value,storeId:params.storeId
-      }
-    })
-    return NextResponse.json(order)
+
+ 
   } catch (error) {
     console.log("[orders_POST]", error);
     return new NextResponse("internal error", { status: 500 });

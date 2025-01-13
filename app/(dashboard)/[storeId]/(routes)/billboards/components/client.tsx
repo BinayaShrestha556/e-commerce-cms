@@ -19,7 +19,7 @@ const BillboardClient: React.FC<BillboardProps> = ({data}) => {
   return (
     <>
     <div className="flex items-center justify-between">
-<Heading title={`Billboard (${data.length})`} description="maange billboards for your store"/>
+<Heading title={`Billboard`} description="maange billboards for your store"/>
 <Button onClick={()=>router.push(`/${params.storeId}/billboards/new`)}>
     <Plus className="mr-2 h-4 w-4"/>
     Add new
@@ -27,9 +27,11 @@ const BillboardClient: React.FC<BillboardProps> = ({data}) => {
     </div>
     <Separator/>
     <DataTable searchKey="label" columns={columns} data={data}/>
-    <Heading title='API' description="API calls for Billboards"/>
+    <div className="h-5"/>
+        <Heading title='API' description="API calls for Billboards"/>
     <Separator/>
     <ApiList entityName="billboards" entityIdName="billboardId"/>
+    
     </>
   )
 }

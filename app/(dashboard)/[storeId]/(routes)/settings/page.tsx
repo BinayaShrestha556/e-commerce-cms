@@ -1,7 +1,8 @@
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs/server";
+
 import { redirect } from "next/navigation";
 import SettingsForm from "./components/settings-form";
+import { useServerUser } from "@/hooks/use-server-user";
 
 interface settings {
   params: {
@@ -9,7 +10,8 @@ interface settings {
   };
 }
 const Settings = async ({ params }: settings) => {
-  const { userId } = auth();
+     const user =await useServerUser();
+      const userId=user?.id
   if (!userId) redirect("/sign-in");
   const store = await prismadb.store.findFirst({
     where: {

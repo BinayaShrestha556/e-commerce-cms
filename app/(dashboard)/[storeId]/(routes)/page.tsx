@@ -23,8 +23,17 @@ const graphRevenue=await getGraphRevenue(params.storeId)
     return(
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <Heading title="Dashboard" description="Overview of your store"/>
+                <Heading title="Dashboard" description=""/>
                 <Separator/>
+               
+                <Card className="col-span-4">
+                    <CardHeader>
+                        <CardTitle>Overview</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pl-2">
+                        <Overview data={graphRevenue}/>
+                    </CardContent>
+                </Card> 
                 <div className="grid gap-4 grid-cols-3">
                     <Card>
                         <CardHeader className="flex flex-row flex-grow items-center justify-between space-y-0 pb-2">
@@ -61,14 +70,6 @@ const graphRevenue=await getGraphRevenue(params.storeId)
                     </Card>
 
                 </div>
-                <Card className="col-span-4">
-                    <CardHeader>
-                        <CardTitle>Overview</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pl-2">
-                        <Overview data={graphRevenue}/>
-                    </CardContent>
-                </Card>
             </div>
         </div>
     )

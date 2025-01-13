@@ -1,20 +1,19 @@
 
 import { MainNav } from "./mainNav"
 import StoreSwitcher from "./storeSwitcher"
-import { auth } from "@/auth"
+
 import { redirect } from "next/navigation"
 import prismadb from "@/lib/prismadb"
-import { ModeToggle } from "./theme-toggle"
-import { CircleUser } from "lucide-react"
-import Image from "next/image"
+
 import { UserOptions } from "./user-options"
 import { SessionProvider } from "next-auth/react"
+import { useServerUser } from "@/hooks/use-server-user"
 
 
 const Navbar =async () => {
-  const session= await auth()
-  const userId=session?.user.id
-  const image=session?.user.image
+   const user =await useServerUser();
+    const userId=user?.id
+
   
   if(!userId) redirect("/sign-in")
   const stores=await prismadb.store.findMany({
@@ -22,12 +21,13 @@ where:{
   userId
 }})
   return (
-    <div className="border-b h-12 flex items-center px-5 ">
+    <div className="border-b h-12 flex items-center px-5 w-full">
       <StoreSwitcher items={stores}/>
-      <div>
+      <div className=" flex-1 flex justify-end md:justify-start pr-2">
       <MainNav/>
       </div>
-      <SessionProvider><UserOptions/></SessionProvider>
+      <div >
+      <SessionProvider><UserOptions/></SessionProvider></div>
     </div>
   )
 }

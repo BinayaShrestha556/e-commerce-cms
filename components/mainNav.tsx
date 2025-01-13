@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
+import Sidebar from "./sidebar"
 
 export const MainNav=({className,...props}:React.HtmlHTMLAttributes<HTMLElement>)=>{
     const pathname=usePathname()
@@ -12,11 +13,7 @@ export const MainNav=({className,...props}:React.HtmlHTMLAttributes<HTMLElement>
             label:"Home",
             active:pathname===`/${param.storeId}`,
         },
-        {
-            href:`/${param.storeId}/settings`,
-            label:"Settings",
-            active:pathname===`/${param.storeId}/settings`,
-        },
+
         {
             href:`/${param.storeId}/billboards`,
             label:"Billboards",
@@ -50,13 +47,20 @@ export const MainNav=({className,...props}:React.HtmlHTMLAttributes<HTMLElement>
 
     ]
 return(
+    <div className="justify-self-end">
 
-    <div className={cn(" flex items-center mx-4 gap-3 lg:mx-6 ",className)}>
+    <div className={cn(" md:flex items-center mx-4 gap-3 lg:mx-6 hidden ",className)}>
         {
             routes.map((e,i)=>(
                 <Link href={e.href} key={i} className={cn(" flex items-center text-sm font-medium transition-colors hover:text-primary",e.active?'text-black dark:text-white':"text-muted-foreground")}>{e.label}</Link>
             ))
         }
+    </div>
+    <div className="md:hidden ">
+        <Sidebar routes={routes} />
+
+    </div>
+    
     </div>
 )
 }
