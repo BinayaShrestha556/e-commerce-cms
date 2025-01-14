@@ -56,8 +56,8 @@ function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
+      <PopoverContent className="w-[200px]  p-0">
+        <Command >
           <CommandList>
             <CommandInput placeholder="search store..." />
             <CommandEmpty>no store found</CommandEmpty>

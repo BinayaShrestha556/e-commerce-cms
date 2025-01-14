@@ -21,9 +21,14 @@ export const columns: ColumnDef<BillboardColumns>[] = [
     accessorKey: "createdAt",
     header: "Created at",
   },
+
   {
+    accessorKey:"id",
+    header:"Id"
+
+  } , {
     id:"actions",
     cell:({row})=><CellAction data={row.original}/>  
-  }
+  },
  
 ]
