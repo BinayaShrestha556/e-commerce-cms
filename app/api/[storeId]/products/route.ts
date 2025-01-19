@@ -12,14 +12,17 @@ export async function POST(
       const userId=user?.id
     if (!userId) return new NextResponse("unauthenticated", { status: 401 });
     const body = await req.json();
-    const { name,price,categoryId,colorId,sizeId,images,isFeatured,isArchived } = body;
+    const { name,price,categoryId,colorId,size,images,isFeatured,isArchived } = body;
     if (!name) return new NextResponse("name is required", { status: 401 });
     if (!price) return new NextResponse("price is required", { status: 401 });
     if (!categoryId) return new NextResponse("categoryId is required", { status: 401 });
-    if (!sizeId) return new NextResponse("sizeId is required", { status: 401 });
+
     if (!colorId) return new NextResponse("colorId is required", { status: 401 });
     if(!images||!images.length){
       return new NextResponse("images are required ",{status:400})
+    }
+    if(!size||!size.length){
+      return new NextResponse("sizes are required ",{status:400})
     }
     if (!params.storeId)
       return new NextResponse("label is required", { status: 400 });
@@ -35,12 +38,14 @@ export async function POST(
     const product =  await prismadb.product.create({
      
       data:{
-        name,price,isArchived,isFeatured,categoryId,colorId,sizeId,storeId:params.storeId,images:{
+        name,price,isArchived,isFeatured,categoryId,colorId,storeId:params.storeId,images:{
           createMany:{
             data:[
               ...images.map((images:{url:string})=>images)
             ]
           }
+        },size:{
+          connect:size
         }
       }
     })
@@ -68,7 +73,7 @@ export async function GET(req:Request,{params}:{params:{storeId:string}}
                 storeId:params.storeId,
                 categoryId,
                 colorId,
-                sizeId,
+                size:{some:{id:sizeId}},
                 isFeatured:isFeatured?true:undefined,
                 
                 isArchived:false

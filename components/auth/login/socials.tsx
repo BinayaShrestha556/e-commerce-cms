@@ -4,13 +4,18 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import {signIn} from "next-auth/react"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { useParams } from "next/navigation";
 export const Social = () => {
+  const params = useParams()
+  const callbackUrl=params.redirect
     const onClick=(providers:"google"|"github")=>{
+      const redirectUrl = Array.isArray(callbackUrl) ? callbackUrl[0] :callbackUrl || DEFAULT_LOGIN_REDIRECT;
        signIn(providers,{
-        callbackUrl: DEFAULT_LOGIN_REDIRECT
+        callbackUrl: redirectUrl
        })
 
     }
+    
 
   return (
     <div className="flex w-full gap-x-4">

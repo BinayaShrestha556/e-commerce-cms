@@ -42,7 +42,7 @@ export async function PATCH(
       price,
       categoryId,
       colorId,
-      sizeId,
+      size,
       images,
       isFeatured,
       isArchived,
@@ -52,11 +52,14 @@ export async function PATCH(
     if (!price) return new NextResponse("price is required", { status: 401 });
     if (!categoryId)
       return new NextResponse("categoryId is required", { status: 401 });
-    if (!sizeId) return new NextResponse("sizeId is required", { status: 401 });
+    
     if (!colorId)
       return new NextResponse("colorId is required", { status: 401 });
     if (!images || !images.length) {
       return new NextResponse("images are required ", { status: 400 });
+    }
+    if (!size || !size.length) {
+      return new NextResponse("sizes are required ", { status: 400 });
     }
     const storeByUserId = await prismadb.store.findFirst({
       where: {
@@ -80,7 +83,9 @@ export async function PATCH(
         isFeatured,
         categoryId,
         colorId,
-        sizeId,
+        size:{
+          connect:size
+        },
         storeId: params.storeId,
         images: {
           deleteMany: {},

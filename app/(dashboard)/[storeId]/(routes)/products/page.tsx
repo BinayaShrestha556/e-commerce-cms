@@ -27,7 +27,7 @@ const Products = async ({params}:{params:{storeId:string}}) => {
       isArchived: e.isArchived,
       price:formatter.format(e.price.toNumber()),
       category:e.category.name,
-      size:e.size.value,
+      size:e.size.map((e)=>e.value).toString(),
       color:e.color.value,
       createdAt:format(e.createdAt,"MMMM do, yyyy")
     }

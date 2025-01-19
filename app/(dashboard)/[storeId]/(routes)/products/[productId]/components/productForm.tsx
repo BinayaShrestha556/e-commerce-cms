@@ -36,8 +36,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { MultiSelect } from "@/components/ui/multi-select";
 interface ProductsFormProps {
-  initialData: (Product & { images: Image[] }) | null;
+  initialData: (Product & { images: Image[] }&{size:Size[]}) | null;
   categories: Category[];
   colors: Color[];
   sizes: Size[];
@@ -48,7 +49,7 @@ const formSchema = z.object({
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
-  sizeId: z.string().min(1),
+  size: z.object({name:z.string(),value:z.string()}).array(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -65,6 +66,7 @@ const ProductsForm: React.FC<ProductsFormProps> = ({
   const description = initialData ? "Edit a product" : "Add a new product";
   const toastMessage = initialData ? "Product updated" : "Product created";
   const action = initialData ? "Save changes" : "Create";
+ 
   const form = useForm<ProductsFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
@@ -79,7 +81,7 @@ const ProductsForm: React.FC<ProductsFormProps> = ({
           price: 0,
           categoryId: "",
           colorId: "",
-          sizeId: "",
+          size: [],
           isFeatured: false,
           isArchived: false,
         },
@@ -99,6 +101,7 @@ const ProductsForm: React.FC<ProductsFormProps> = ({
       router.refresh();
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
+    
     } catch (error) {
       toast.error("something went wrong");
     } finally {
@@ -274,39 +277,33 @@ const ProductsForm: React.FC<ProductsFormProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
+             <FormField
               control={form.control}
-              name="sizeId"
+              name="size"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Size</FormLabel>
-
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    value={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a size"
-                        />
-                      </SelectTrigger>
+                  <FormLabel>Sizes</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      options={sizes.map((e)=>({label:e.name,value:e.value}))}
+                      onValueChange={(selectedValues) => {
+                        // Map selected values to the required object format
+                        const mappedValues = selectedValues.map((value) => {
+                          const matchedSize = sizes.find((size) => size.value === value);
+                          return matchedSize ? { name: matchedSize.name, value: matchedSize.value } : null;
+                        }).filter(Boolean); // Remove any null values
+                        field.onChange(mappedValues); // Update the form field
+                      }}
+                      defaultValue={field.value.map((e)=>e.name)}
+                      placeholder="Select options"
+                      variant="inverted"
+                      animation={2}
+                      maxCount={3}
+                    />
                     </FormControl>
-                    <SelectContent>
-                      {sizes?.map((size) => (
-                        <SelectItem key={size.id} value={size.id}>
-                          {size.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormItem>)}
+                    />
+          
             <FormField
               control={form.control}
               name="isFeatured"
