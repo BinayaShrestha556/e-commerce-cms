@@ -15,10 +15,10 @@ declare module "next-auth"{
 export const {
   handlers:{GET,POST}, auth,signIn,signOut
 }=NextAuth({
-  // pages:{
-  //   signIn:"/auth/login",
-  // error:"/auth/error"
-  // },
+  pages:{
+    signIn:"/auth/login",
+  error:"/auth/error"
+  },
   events:{
     async linkAccount({user}){
    await db.user.update({
