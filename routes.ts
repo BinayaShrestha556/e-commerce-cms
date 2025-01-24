@@ -18,7 +18,10 @@ export const authRoutes=[
     "/auth/register",
     "/auth/error",
     "/auth/change-password",
-    "/auth/change-password/change"
+    "/auth/change-password/change",
+    "/auth/test",
+    "/auth/users/login",
+    "/auth/users/register"
 ]
 /**
  * the prefix for API authentication routes
@@ -31,4 +34,4 @@ export const apiAuthPrefix="/api"
  * the default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT='/settings'
+export const DEFAULT_LOGIN_REDIRECT='/'

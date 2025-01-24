@@ -8,18 +8,18 @@ import { getUserByEmail } from "@/data/user"
 import { generateVerificationToken } from "@/lib/tokens"
 
 export const register=async(value:z.infer<typeof RegisterSchema>)=>{
-
+console.log("hello")
     const validatedFields=RegisterSchema.safeParse(value)
     if(!validatedFields.success){
         return {error:"invalid fields"}
     }
-    const {email,password, name}=validatedFields.data
+    const {email,password, name,role}=validatedFields.data
     const hashedPassword =await bcryptjs.hash(password,10)
     const existingUser=await getUserByEmail(email)
     if(existingUser) return {error:"email already in use"}
     await db.user.create({
         data:{
-            name,email,password:hashedPassword
+            name,email,password:hashedPassword,role
         }
     })
     const verificationToken=await generateVerificationToken(email)

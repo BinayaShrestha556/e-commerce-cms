@@ -4,6 +4,7 @@ import {db} from "./lib/db"
 import authConfig from "./auth.config"
 import { getUserById } from "./data/user"
 import { UserRole } from "@prisma/client"
+import { parse } from "url"
 export type ExtendedUser=DefaultSession["user"]&{
   role:UserRole
 }
@@ -12,6 +13,7 @@ declare module "next-auth"{
     user:ExtendedUser;
   }
 }
+
 export const {
   handlers:{GET,POST}, auth,signIn,signOut
 }=NextAuth({
@@ -20,16 +22,29 @@ export const {
   error:"/auth/error"
   },
   events:{
-    async linkAccount({user}){
+    async linkAccount({user,account}){
+      const role=account.provider === "github" ? "ADMIN" : "USER";
    await db.user.update({
     where:{id:user.id},
-    data:{emailVerified:new Date()}
+    data:{emailVerified:new Date(),role}
    })
     }
   },
   callbacks:{
+    async redirect({ url, baseUrl }) {
+      // Step 1: Define a list of allowed domains to which users can be redirected
+      const allowedDomains = ["http://localhost:3001"];
+  
+      // Step 2: Check if the `url` starts with any of the allowed domains
+      const isAllowed = allowedDomains.some((domain) => url.startsWith(domain));
+     
+
+   
+  console.log(url)
+
+      return isAllowed ? url : baseUrl;
+    },
     async signIn({user,account}){
-      //allow OAuth without email verification
       if (account?.provider!=="credentials") return true
       if(!user.id) return false
       const existingUser = await getUserById(user.id);
@@ -37,7 +52,7 @@ export const {
       return true
     },
     async session({token,session}){
-      console.log({sessionToken:token})
+     
       if( token.sub&&session.user){
         session.user.id=token.sub;
       }

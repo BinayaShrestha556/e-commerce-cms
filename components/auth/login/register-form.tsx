@@ -11,7 +11,7 @@ import {useForm} from "react-hook-form"
 import * as z from 'zod'
 import { Social } from './socials'
 
-const RegisterForm = () => {
+const RegisterForm = ({admin}:{admin:boolean}) => {
     const [pending,setTransition]=useTransition()
     const [error,setErr]=useState<string|undefined>("")
     const [success,setSuccess]=useState<string|undefined>("")
@@ -22,20 +22,25 @@ const RegisterForm = () => {
             email:"",
             password:"",
             name:"",
+            role:"USER"
 
         }
 
     })
     const onSubmit=(values:z.infer<typeof RegisterSchema>)=>{
+        console.log("hello")
         setErr("")
         setSuccess("")
+        const data={...values,role:admin?"ADMIN":"USER" as "ADMIN"|"USER"  }
         setTransition(()=>
-        register(values).then((data)=>{
+        register(data).then((data)=>{
             setErr(data.error)
             setSuccess(data.success)
 
         })
+
     )
+    
 
 
     }
@@ -84,12 +89,13 @@ const RegisterForm = () => {
                         </FormItem>
                     )}
                     />
+             
                 </div>
                 <FormAlertMessage type='error' message={error}/>
                 <FormAlertMessage type='success' message={success}/>
-
+                    
                 <Button disabled={pending} className='w-full text-md font-semibold'>Register</Button>
-                <div className="w-full mt-4 "><Social/></div>
+                <div className="w-full mt-4 "><Social admin={admin}/></div>
             </form>
 
 

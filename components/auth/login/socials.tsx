@@ -4,14 +4,18 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import {signIn} from "next-auth/react"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { useParams } from "next/navigation";
-export const Social = () => {
-  const params = useParams()
-  const callbackUrl=params.redirect
+import { useSearchParams } from "next/navigation";
+export const Social =({admin}:{admin:boolean}) => {
+  const params = useSearchParams()
+  const callbackUrl=params.get("redirect")
     const onClick=(providers:"google"|"github")=>{
+
       const redirectUrl = Array.isArray(callbackUrl) ? callbackUrl[0] :callbackUrl || DEFAULT_LOGIN_REDIRECT;
        signIn(providers,{
-        callbackUrl: redirectUrl
+        redirectTo:redirectUrl,
+        redirect:!admin
+       
+
        })
 
     }
@@ -19,7 +23,7 @@ export const Social = () => {
 
   return (
     <div className="flex w-full gap-x-4">
-      <Button
+{  !admin&&    <Button
       type="button"
         variant={"outline"}
         className="flex-1"
@@ -27,8 +31,8 @@ export const Social = () => {
         onClick={()=>onClick("google")}
       >
         <FcGoogle className="h-5 w-5 " />
-      </Button>
-      <Button
+      </Button>}
+      {admin&&<Button
       type="button"
         variant={"outline"}
         size="lg"
@@ -36,7 +40,7 @@ export const Social = () => {
         onClick={() => {onClick("github")}}
       >
         <FaGithub className="h-5 w-5" />
-      </Button>
+      </Button>}
     </div>
   );
 };
