@@ -9,6 +9,7 @@ import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import {HexColorPicker} from "react-colorful"
 import {
   Form,
   FormControl,
@@ -24,9 +25,9 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
+
 import { useOrigin } from "@/hooks/use-origin";
-import ImageUpload from "@/components/ui/image-upload";
+
 interface ColorsFormProps {
   initialData: Color | null;
 }
@@ -68,6 +69,7 @@ const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
       setLoading(false);
     }
   };
+  const [color, setColor] = useState(initialData?.value || "#aabbcc");
   const onDelete = async () => {
     try {
       setLoading(true);
@@ -135,14 +137,21 @@ const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Value</FormLabel>
                   <FormControl>
-                    <div className="flex items-center gap-4">
-                    <Input
-                      disabled={loading}
-                      placeholder="Color value"
-                      {...field}
-                    />
-                    <div className="p-4 border rounded-full" style={{backgroundColor:field.value}}/></div>
+                    <div className="flex flex-col gap-4">
+                      <Input
+                 disabled={loading}
+                 placeholder="Color value"
+                 {...field}
+               />
+                      {/* Color Picker Component */}
+                      <HexColorPicker  color={field.value} onChange={(newColor) => {
+                        setColor(newColor); // Update the color state
+                        field.onChange(newColor); // Update the form field
+                      }} />
+                    </div>
+                    {/* Display the selected color */}
                   </FormControl>
+                    
                   <FormMessage />
                 </FormItem>
               )}
