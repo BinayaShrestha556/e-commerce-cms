@@ -19,13 +19,13 @@ export const ApiList:React.FC<ApiListProps>=({
     return(
         <div className="flex-col flex lg:flex-row gap-6">
             <div className="flex-col gap-3 flex">
-                <Heading title="Public Routes" description="Routes that doesnt need authentication" size="2xl"/>
+                <Heading title="Public Routes" description="Routes that doesnt need authentication" size="text-xl"/>
                             <ApiAlert title="GET" variant="public" description={`${baseUrl}/${entityName}`}/>
             <ApiAlert title="GET" variant="public" description={`${baseUrl}/${entityName}/{${entityIdName}}`}/>
             </div>
 
             <div className="flex-col gap-3 flex">
-            <Heading title="Private Routes" description="Routes that need authentication" size="2xl"/>
+            <Heading title="Private Routes" description="Routes that need authentication" size="text-xl"/>
 
             <ApiAlert title="POST" variant="admin" description={`${baseUrl}/${entityName}`}/>
             <ApiAlert title="PATCH" variant="admin" description={`${baseUrl}/${entityName}/{${entityIdName}}`}/>

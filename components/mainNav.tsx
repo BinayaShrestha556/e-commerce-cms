@@ -48,6 +48,11 @@ export const MainNav = ({
       label: "Orders",
       active: pathname === `/${param.storeId}/orders`,
     },
+    {
+      href:`/${param.storeId}/api`,
+      label:"Api",
+      active:pathname===`/${param.storeId}/api`
+    }
   ];
   const [isMounted, setIsmounted] = useState(false);
   useEffect(() => {
