@@ -6,10 +6,9 @@ import { Button } from "./ui/button";
 import { CircleUser, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
-import Link from "next/link";
+
 import { useParams } from "next/navigation";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Command, CommandGroup, CommandItem, CommandList } from "./ui/command";
 import { useRouter } from "next/navigation";
 
 export const UserOptions = () => {

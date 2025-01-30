@@ -2,8 +2,8 @@
 import { Store } from "@prisma/client";
 import { Popover, PopoverTrigger } from "./ui/popover";
 import { useStoreModal } from "@/hooks/use-store-modal";
-import { redirect, useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Check, ChevronsUpDown, PlusCircle, Store as StoreIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -40,6 +40,11 @@ function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
     setOpen(false);
     router.push(`/${store.value}`);
   };
+    const [isMounted, setIsmounted] = useState(false);
+    useEffect(() => {
+      setIsmounted(true);
+    }, []);  
+  if (!isMounted) return null;
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

@@ -131,7 +131,7 @@ model Order{
 model OrderItems{
   id String @id @default(uuid())
   orderId String
-  order Order @relation(fields: [orderId], references: [id])
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
   sizeId String
   userId String

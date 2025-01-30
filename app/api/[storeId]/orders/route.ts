@@ -25,6 +25,7 @@ export async function POST(
 
     })
     const items=orderItems.map((e:any)=>({
+      userId,
         orderId:order.id,
         productId:e.productId,
         sizeId:e.sizeId,
@@ -36,7 +37,7 @@ export async function POST(
         data:items
     })
     
- 
+ return new NextResponse("success",{status:200})
   } catch (error) {
     console.log("[orders_POST]", error);
     return new NextResponse("internal error", { status: 500 });

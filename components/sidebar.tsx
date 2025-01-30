@@ -1,7 +1,6 @@
 "use client";
 import { AlignJustify } from "lucide-react";
 import React, { useState } from "react";
-import { FaHamburger } from "react-icons/fa";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";

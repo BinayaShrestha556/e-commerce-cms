@@ -19,6 +19,7 @@ const DashboardPage:React.FC<DashboardPageProps>=async ({params})=>{
     const salesCount= await getSalesCount(params.storeId)
     const stockCount=await getStockCount(params.storeId)
 const graphRevenue=await getGraphRevenue(params.storeId)
+console.log(graphRevenue);
 
     return(
         <div className="flex-col">
