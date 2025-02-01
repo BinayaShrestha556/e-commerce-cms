@@ -33,15 +33,10 @@ export const {
   callbacks:{
     async redirect({ url, baseUrl }) {
       // Step 1: Define a list of allowed domains to which users can be redirected
-      const allowedDomains = ["http://localhost:3001"];
+      
   
       // Step 2: Check if the `url` starts with any of the allowed domains
-      const isAllowed = allowedDomains.some((domain) => url.startsWith(domain));
-     
-
- 
-
-      return isAllowed ? url : baseUrl;
+   return url?url:baseUrl
     },
     async signIn({user,account}){
       if (account?.provider!=="credentials") return true

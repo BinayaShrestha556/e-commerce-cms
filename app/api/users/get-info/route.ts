@@ -16,6 +16,6 @@ export async function POST(req:NextRequest){
                 "Access-Control-Allow-Credentials": "true", // Allow credentials
               };
         const user=await useServerUser()
-        if(user) return NextResponse.json(user,{headers})
-        return NextResponse.json({loggedIn:false},{headers})
+        if(user) return NextResponse.json({loggedIn:true,user},{headers})
+        return NextResponse.json({loggedIn:false,user:[]},{headers})
 }
