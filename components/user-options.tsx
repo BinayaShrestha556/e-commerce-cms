@@ -17,9 +17,7 @@ export const UserOptions = () => {
   
   const image = session.data?.user.image;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const onClick = async () => {
-    await signOut();
-  };
+ 
   const params=useParams()
   return (
     <div className="flex items-center gap-2 z-50">

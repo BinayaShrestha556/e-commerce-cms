@@ -26,7 +26,6 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
 
-import { useOrigin } from "@/hooks/use-origin";
 
 interface ColorsFormProps {
   initialData: Color | null;
@@ -52,7 +51,7 @@ const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
     },
   });
   const params = useParams();
-  const origin = useOrigin();
+
   const router = useRouter();
   const onSubmit = async (data: ColorsFormValues) => {
     try {
@@ -150,6 +149,7 @@ const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
                       }} />
                     </div>
                     {/* Display the selected color */}
+                    <div className={`bg-[${color}] h-8 w-8 rounded-full`}></div>
                   </FormControl>
                     
                   <FormMessage />

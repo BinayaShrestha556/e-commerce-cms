@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs"
 import { RegisterSchema } from "@/schemas"
 import {sendVerificationEmail} from "@/lib/mail"
 import {  z } from "zod"
-import { db } from "@/lib/db"
+import db from "@/lib/prismadb"
 import { getUserByEmail } from "@/data/user"
 import { generateVerificationToken } from "@/lib/tokens"
 

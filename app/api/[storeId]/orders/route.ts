@@ -1,5 +1,6 @@
 import { useServerUser } from "@/hooks/use-server-user";
 import prismadb from "@/lib/prismadb";
+import { OrderItems } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -24,7 +25,7 @@ export async function POST(
 
 
     })
-    const items=orderItems.map((e:any)=>({
+    const items=orderItems.map((e:OrderItems)=>({
       userId,
         orderId:order.id,
         productId:e.productId,
@@ -36,8 +37,14 @@ export async function POST(
     await prismadb.orderItems.createMany({
         data:items
     })
+    const headers = {
+      "Access-Control-Allow-Origin": req.headers.get("origin") || "*", // Allow the requesting origin
+      "Access-Control-Allow-Methods": "POST, OPTIONS", // Allow POST and OPTIONS methods
+      "Access-Control-Allow-Headers": "Content-Type, Authorization", // Allow necessary headers
+      "Access-Control-Allow-Credentials": "true", // Allow credentials
+    };
     
- return new NextResponse("success",{status:200})
+ return new NextResponse("success",{status:200,headers})
   } catch (error) {
     console.log("[orders_POST]", error);
     return new NextResponse("internal error", { status: 500 });

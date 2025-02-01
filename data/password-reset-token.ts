@@ -1,4 +1,4 @@
-import {db} from "@/lib/db";
+import db from "@/lib/prismadb";
 export const getPasswordResetTokenByToken=async(token:string)=>{
     try {
         const passwordResetToken=await db.passwordResetToken.findUnique({

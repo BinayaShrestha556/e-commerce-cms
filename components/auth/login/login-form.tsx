@@ -48,7 +48,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
     <div className='p-5 w-full rounded-md shadow-md '>
         <h1 className='text-center  text-2xl font-bold font-mono'>Login</h1>
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='border flex flex-col  gap-3 mt-3 rounded-lg p-6'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='border flex flex-col bg-card/50  gap-3 mt-3 rounded-lg p-6'>
                 
                     <FormField control={form.control} name='email'
                     render={({field})=>(
@@ -57,7 +57,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
                                 Email
                             </FormLabel>
                             <FormControl>
-                                <Input disabled={pending} {...field} type="email"/>
+                                <Input className='bg-background' disabled={pending} {...field} type="email"/>
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -70,7 +70,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
                                 Password
                             </FormLabel>
                             <FormControl>
-                                <Input disabled={pending} {...field} type="password"/>
+                                <Input className='bg-background outline-1 ' disabled={pending} {...field} type="password"/>
                             </FormControl>
                             <FormMessage/>
                         </FormItem>

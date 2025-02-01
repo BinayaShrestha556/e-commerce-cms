@@ -24,8 +24,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  const handleUpload = (result: any) => {
+interface Results{
+event:string;
+info:{
+  secure_url:string
+}
+}
+  const handleUpload = (result: Results) => {
     if (result.event === "success") {
         console.log(result.info.secure_url)
       onChange(result.info.secure_url);
@@ -57,7 +62,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
 
-      <CldUploadWidget uploadPreset="spkd0oze" onSuccess={(results)=>{handleUpload(results)}}>
+      <CldUploadWidget uploadPreset="spkd0oze" onSuccess={(results)=>{handleUpload(results as Results)}}>
         {({ open}) => {
           
 

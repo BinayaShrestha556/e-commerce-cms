@@ -2,7 +2,7 @@
 
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token"
 import { getUserByEmail } from "@/data/user"
-import { db } from "@/lib/db"
+import db from "@/lib/prismadb"
 import { SetPasswordSchema } from "@/schemas"
 import bcrypt from "bcryptjs"
 import { z } from "zod"

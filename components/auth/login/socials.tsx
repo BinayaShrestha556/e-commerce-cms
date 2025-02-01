@@ -26,20 +26,20 @@ export const Social =({admin}:{admin:boolean}) => {
 {  !admin&&    <Button
       type="button"
         variant={"outline"}
-        className="flex-1"
+        className="flex-1 flex items-center gap-2"
         size="lg"
         onClick={()=>onClick("google")}
       >
-        <FcGoogle className="h-5 w-5 " />
+        <FcGoogle className="h-5 w-5 " /> <p>Continue with google</p>
       </Button>}
       {admin&&<Button
       type="button"
         variant={"outline"}
         size="lg"
-        className="flex-1"
+        className="flex-1 flex items-center gap-2"
         onClick={() => {onClick("github")}}
       >
-        <FaGithub className="h-5 w-5" />
+        <FaGithub className="h-5 w-5" /> <p>Continue with github</p>
       </Button>}
     </div>
   );

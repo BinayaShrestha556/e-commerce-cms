@@ -37,7 +37,7 @@ export async function PATCH(
     const userId=user?.id
  if (!userId) return new NextResponse("unauthenticated", { status: 401 });
  const body = await req.json();
- const {orderItems,address,phone}=body
+ const {address,phone}=body
 
     const storeByUserId=await prismadb.store.findFirst({
         where:{

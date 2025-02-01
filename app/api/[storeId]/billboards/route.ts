@@ -54,5 +54,6 @@ export async function GET(req:Request,{params}:{params:{storeId:string}}
         console.log('[BILLBOARD_GET]',error);
         return new NextResponse('internal error',{status:500});
         
+        
     }
 }

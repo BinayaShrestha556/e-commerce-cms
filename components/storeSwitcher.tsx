@@ -24,7 +24,7 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<
 interface StoreSwitcherProps extends PopoverTriggerProps {
   items: Store[];
 }
-function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
+function StoreSwitcher({  items = [] }: StoreSwitcherProps) {
   const storeModal = useStoreModal();
   const params = useParams();
   const router = useRouter();

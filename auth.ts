@@ -1,10 +1,10 @@
 import NextAuth, { DefaultSession } from "next-auth"
 import {PrismaAdapter} from "@auth/prisma-adapter"
-import {db} from "./lib/db"
+import db from "./lib/prismadb"
 import authConfig from "./auth.config"
 import { getUserById } from "./data/user"
 import { UserRole } from "@prisma/client"
-import { parse } from "url"
+
 export type ExtendedUser=DefaultSession["user"]&{
   role:UserRole
 }
@@ -39,8 +39,7 @@ export const {
       const isAllowed = allowedDomains.some((domain) => url.startsWith(domain));
      
 
-   
-  console.log(url)
+ 
 
       return isAllowed ? url : baseUrl;
     },

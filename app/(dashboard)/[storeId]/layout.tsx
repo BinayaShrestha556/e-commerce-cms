@@ -2,7 +2,7 @@ import Navbar from "@/components/navbar";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
+
 import LogoutButton from "@/components/auth/logout-button";
 
 export default async function DashboardLayout({

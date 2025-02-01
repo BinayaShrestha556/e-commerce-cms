@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb"
-interface GraphData{
+export interface GraphData{
     name:string
     total:number
 }

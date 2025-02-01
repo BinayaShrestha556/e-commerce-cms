@@ -1,6 +1,6 @@
 import { getVerificationTokenByEmail } from "@/data/verification-token";
 import {v4 as uuid} from "uuid"
-import { db } from "./db";
+import db from "./prismadb";
 import { getPasswordResetByEmail } from "@/data/password-reset-token";
 export const generateVerificationToken = async (email:string)=>{
     const token =uuid();

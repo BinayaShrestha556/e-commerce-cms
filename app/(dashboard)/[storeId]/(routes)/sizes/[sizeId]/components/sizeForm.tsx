@@ -24,9 +24,9 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
-import { useOrigin } from "@/hooks/use-origin";
-import ImageUpload from "@/components/ui/image-upload";
+
+
+
 interface SizesFormProps {
   initialData: Size | null;
 }
@@ -51,7 +51,7 @@ const SizesForm: React.FC<SizesFormProps> = ({ initialData }) => {
     },
   });
   const params = useParams();
-  const origin = useOrigin();
+
   const router = useRouter();
   const onSubmit = async (data: SizesFormValues) => {
     try {

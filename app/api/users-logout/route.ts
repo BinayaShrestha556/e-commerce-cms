@@ -1,8 +1,8 @@
 import { signOut } from "@/auth";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req:NextApiRequest,res:NextApiResponse){
+import {  NextResponse } from "next/server";
+
+export async function POST(){
     
         await signOut({redirect:false})
         

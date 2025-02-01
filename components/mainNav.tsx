@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export const MainNav = ({
   className,
-  ...props
+  
 }: React.HtmlHTMLAttributes<HTMLElement>) => {
   const pathname = usePathname();
   const param = useParams();
