@@ -63,6 +63,17 @@ export const {
       return token
     }
   },
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'none',
+        path: '/',
+        secure: true,
+      },
+    },
+  },
   adapter:PrismaAdapter(db),
     session:{strategy:"jwt"},
     ...authConfig

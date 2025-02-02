@@ -37,3 +37,5 @@ next-env.d.ts
 /lib/*.js
 /lib/data.json
 /lib/test.ts
+
+certificates

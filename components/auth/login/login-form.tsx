@@ -45,7 +45,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
 
     }
   return (
-    <div className='p-5 w-full rounded-md shadow-md '>
+    <div className='p-1 lg:p-5 w-full rounded-md shadow-md '>
         <h1 className='text-center  text-2xl font-bold font-mono'>Login</h1>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='border flex flex-col bg-card/50  gap-3 mt-3 rounded-lg p-6'>
@@ -87,7 +87,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
 
 
         </Form>
-        <Link href="/auth/register"><Button variant="ghost" disabled={pending} className=' mt-3 hover:no-underline underline font-semibold text-sm' >Dont have an account?</Button></Link>
+        <Link href={admin?"/auth/register":"/auth/user/register"}><Button variant="ghost" disabled={pending} className=' mt-3 hover:no-underline underline font-semibold text-sm' >Dont have an account?</Button></Link>
     </div>
 )
 }
