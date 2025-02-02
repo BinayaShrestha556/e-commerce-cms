@@ -63,17 +63,20 @@ const htmlTemplate=(link:string)=>{
   </body>
 </html>`
 }
+    const origin = useOrigin();
+  
 export const sendVerificationEmail=async(email:string,token:string)=>{
-    const confirmLink=`http://localhost:3000/auth/new-verification?token=${token}`;
+    const confirmLink=`${origin}/auth/new-verification?token=${token}`;
     const html=htmlTemplate(confirmLink)
     await sendTestEmail(email,html)
 }
 export const sendPasswordResetEmail=async(email:string,token:string)=>{
-    const confirmLink=`http://localhost:3000/auth/change-password/change?token=${token}`;
+    const confirmLink=`${origin}/auth/change-password/change?token=${token}`;
     const html=htmlTemplate(confirmLink)
     await sendTestEmail(email,html)
 }
 
+import { useOrigin } from "@/hooks/use-origin";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
