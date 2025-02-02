@@ -63,8 +63,8 @@ const htmlTemplate=(link:string)=>{
   </body>
 </html>`
 }
-    const origin = useOrigin();
-  
+    
+  const origin = process.env.ORIGIN
 export const sendVerificationEmail=async(email:string,token:string)=>{
     const confirmLink=`${origin}/auth/new-verification?token=${token}`;
     const html=htmlTemplate(confirmLink)
@@ -76,7 +76,7 @@ export const sendPasswordResetEmail=async(email:string,token:string)=>{
     await sendTestEmail(email,html)
 }
 
-import { useOrigin } from "@/hooks/use-origin";
+
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
