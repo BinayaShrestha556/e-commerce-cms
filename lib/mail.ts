@@ -74,20 +74,24 @@ export const sendPasswordResetEmail=async(email:string,token:string)=>{
     await sendTestEmail(email,html)
 }
 
-import {google} from "googleapis"
-import nodemailer from "nodemailer"
-import SMTPTransport from "nodemailer/lib/smtp-transport"
-const CLIENT_ID=process.env.MAIL_CLIENT_ID     //google client id
-const CLIENT_SECRET=process.env.MAIL_CLIENT_SECRET// google client secret
-const REFRESH_TOKEN=process.env.MAIL_RRFRESH_TOKEN// refresh token of oauth2 login
-const REDIRECT_URI= "https://developers.google.com/oauthplayground"
-const MY_EMAIL= "binayastha37b@gmail.com"     //your email here
-const oAuth2Client=new google.auth.OAuth2(
-    CLIENT_ID,CLIENT_SECRET,REDIRECT_URI
-)
-oAuth2Client.setCredentials({refresh_token:REFRESH_TOKEN})
-const sendTestEmail = async (to:string,html:string) => {
-    const ACCESS_TOKEN = await oAuth2Client.getAccessToken();
+import { google } from "googleapis";
+import nodemailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
+
+const CLIENT_ID = process.env.MAIL_CLIENT_ID; // Google client id
+const CLIENT_SECRET = process.env.MAIL_CLIENT_SECRET; // Google client secret
+const REFRESH_TOKEN = process.env.MAIL_RRFRESH_TOKEN; // Refresh token of OAuth2 login
+const REDIRECT_URI = "https://developers.google.com/oauthplayground";
+const MY_EMAIL = "binayastha37b@gmail.com"; // Your email here
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+const sendTestEmail = async (to: string, html: string) => {
+  try {
+    const { token } = await oAuth2Client.getAccessToken();
+    const ACCESS_TOKEN = token;
+
     const transport = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -102,8 +106,8 @@ const sendTestEmail = async (to:string,html:string) => {
         rejectUnauthorized: true,
       },
     } as SMTPTransport.Options);
-  
-    //EMAIL OPTIONS
+
+    // EMAIL OPTIONS
     const from = MY_EMAIL;
     const subject = "E-commerce";
 
@@ -113,4 +117,8 @@ const sendTestEmail = async (to:string,html:string) => {
         resolve(info);
       });
     });
-  };
+  } catch (error) {
+    console.error('Error in sendTestEmail:', error);
+    throw error;
+  }
+};

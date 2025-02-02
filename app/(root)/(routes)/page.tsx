@@ -13,7 +13,7 @@ export default function Home() {
   },[isOpen,onOpen])
   return (
     <div className="text-white flex items-center gap-2 p-3">
-      hello
+      
       {/* <SignedIn>
       <UserButton/></SignedIn> */}
      {/* <Modal title='test' description="hello" isOpen onClose={()=>{}}>children</Modal> */}
