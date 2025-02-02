@@ -4,11 +4,11 @@ import { Separator } from "@/components/ui/separator";
 
 const page = () => {
   return (
-    <div className="pt-8">
+    <div className="pt-8 p-2">
       <Heading
         title="APIs"
         description="To connect to your frontend."
-        size="text-7xl"
+        size="text-4xl md:text-5xl lg:text-7xl"
       />
       <div className="mt-10">
         <Heading
