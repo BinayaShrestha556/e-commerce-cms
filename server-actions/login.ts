@@ -2,7 +2,7 @@
 
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas";
-import { error } from "console";
+
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 import { TypeOf, z } from "zod";
@@ -10,7 +10,7 @@ import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const login = async (value: z.infer<typeof LoginSchema>) => {
+export const login = async (value: z.infer<typeof LoginSchema>,callbackUrl?:string) => {
   const validatedFields = LoginSchema.safeParse(value);
   if (!validatedFields.success) {
     return { error: "invalid fields" };
@@ -24,11 +24,14 @@ export const login = async (value: z.infer<typeof LoginSchema>) => {
     return {success:"Conformation email sent."}
 
   }
+
   try {
+
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl||DEFAULT_LOGIN_REDIRECT,
+      redirect:true
     });
   } catch (error) {
     if (error instanceof AuthError) {

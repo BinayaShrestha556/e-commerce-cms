@@ -16,6 +16,7 @@ import Link from 'next/link'
 const LoginForm = ({admin}:{admin:boolean}) => {
     const [pending,setTransition]=useTransition()
     const params=useSearchParams()
+    const callbackUrl=params.get("redirect")
     const urlError=params.get("error")==="OAuthAccountNotLinked"?"This email is already in use with another provider!":""
     const [error,setErr]=useState<string|undefined>("")
     const [success,setSuccess]=useState<string|undefined>("")
@@ -33,7 +34,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
         setSuccess("")
         
         setTransition(()=>
-        login(values).then((data)=>
+        login(values,callbackUrl||undefined).then((data)=>
         {
             setErr(data?.error)
             setSuccess(data?.success)
