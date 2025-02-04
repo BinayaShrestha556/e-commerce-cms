@@ -10,7 +10,7 @@ import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const login = async (value: z.infer<typeof LoginSchema>,callbackUrl?:string) => {
+export const login = async (value: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(value);
   if (!validatedFields.success) {
     return { error: "invalid fields" };
@@ -30,8 +30,8 @@ export const login = async (value: z.infer<typeof LoginSchema>,callbackUrl?:stri
     await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl||DEFAULT_LOGIN_REDIRECT,
-      redirect:true
+      redirectTo:DEFAULT_LOGIN_REDIRECT,
+    
     });
   } catch (error) {
     if (error instanceof AuthError) {

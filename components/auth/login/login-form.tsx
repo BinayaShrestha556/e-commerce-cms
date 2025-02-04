@@ -16,7 +16,7 @@ import Link from 'next/link'
 const LoginForm = ({admin}:{admin:boolean}) => {
     const [pending,setTransition]=useTransition()
     const params=useSearchParams()
-    const callbackUrl=params.get("redirect")
+
     const urlError=params.get("error")==="OAuthAccountNotLinked"?"This email is already in use with another provider!":""
     const [error,setErr]=useState<string|undefined>("")
     const [success,setSuccess]=useState<string|undefined>("")
@@ -34,7 +34,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
         setSuccess("")
         
         setTransition(()=>
-        login(values,callbackUrl||undefined).then((data)=>
+        login(values).then((data)=>
         {
             setErr(data?.error)
             setSuccess(data?.success)
@@ -82,7 +82,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
                 <FormAlertMessage type='success' message={success}/>
                     <Link href="/auth/change-password"><Button variant="ghost" disabled={pending} className='mb-2 hover:underline font-semibold text-sm' >Forgot password?</Button></Link>
                 <Button disabled={pending} className='w-full text-md font-semibold'>Login</Button>
-                <div className='mt-4'><Social admin={admin}/></div>
+                <div className='mt-4'><Social admin={true}/></div>
                
             </form>
 
