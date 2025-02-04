@@ -16,7 +16,6 @@ import Link from 'next/link'
 const LoginForm = ({admin}:{admin:boolean}) => {
     const [pending,setTransition]=useTransition()
     const params=useSearchParams()
-
     const urlError=params.get("error")==="OAuthAccountNotLinked"?"This email is already in use with another provider!":""
     const [error,setErr]=useState<string|undefined>("")
     const [success,setSuccess]=useState<string|undefined>("")

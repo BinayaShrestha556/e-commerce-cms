@@ -2,7 +2,7 @@
 
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas";
-
+import { error } from "console";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 import { TypeOf, z } from "zod";
@@ -24,14 +24,11 @@ export const login = async (value: z.infer<typeof LoginSchema>) => {
     return {success:"Conformation email sent."}
 
   }
-
   try {
-
     await signIn("credentials", {
       email,
       password,
-      redirectTo:DEFAULT_LOGIN_REDIRECT,
-    
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {
