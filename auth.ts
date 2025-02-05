@@ -22,22 +22,16 @@ export const {
   error:"/auth/error"
   },
   events:{
-    async linkAccount({user,account}){
-      const role=account.provider === "github" ? "ADMIN" : "USER";
+    async linkAccount({user}){
+      
    await db.user.update({
     where:{id:user.id},
-    data:{emailVerified:new Date(),role}
+    data:{emailVerified:new Date(),role:"ADMIN"}
    })
     }
   },
   callbacks:{
-    async redirect({ url, baseUrl }) {
-      // Step 1: Define a list of allowed domains to which users can be redirected
-      
-  
-      // Step 2: Check if the `url` starts with any of the allowed domains
-   return url?url:baseUrl
-    },
+
     async signIn({user,account}){
       if (account?.provider!=="credentials") return true
       if(!user.id) return false
@@ -63,6 +57,7 @@ export const {
       return token
     }
   },
+
 
   adapter:PrismaAdapter(db),
     session:{strategy:"jwt"},

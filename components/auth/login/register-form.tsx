@@ -95,7 +95,7 @@ const RegisterForm = ({admin}:{admin:boolean}) => {
                 <FormAlertMessage type='success' message={success}/>
                     
                 <Button disabled={pending} className='w-full text-md font-semibold'>Register</Button>
-                <div className="w-full mt-4 "><Social admin={admin}/></div>
+                <div className="w-full mt-4 "><Social admin={true}/></div>
             </form>
 
 

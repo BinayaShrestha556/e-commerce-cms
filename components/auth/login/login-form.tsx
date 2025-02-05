@@ -81,7 +81,7 @@ const LoginForm = ({admin}:{admin:boolean}) => {
                 <FormAlertMessage type='success' message={success}/>
                     <Link href="/auth/change-password"><Button variant="ghost" disabled={pending} className='mb-2 hover:underline font-semibold text-sm' >Forgot password?</Button></Link>
                 <Button disabled={pending} className='w-full text-md font-semibold'>Login</Button>
-                <div className='mt-4'><Social admin={admin}/></div>
+                <div className='mt-4'><Social admin={true}/></div>
                
             </form>
 

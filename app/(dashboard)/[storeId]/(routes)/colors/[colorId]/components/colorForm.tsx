@@ -1,4 +1,5 @@
 "use client";
+
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
@@ -9,7 +10,7 @@ import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import {HexColorPicker} from "react-colorful"
+import { HexColorPicker } from "react-colorful";
 import {
   Form,
   FormControl,
@@ -26,78 +27,94 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
 
-
 interface ColorsFormProps {
   initialData: Color | null;
 }
+
 const formSchema = z.object({
-  name: z.string().min(1),
-  value: z.string().min(1).regex(/^#/,{message:"string must be a hex code"}),
+  name: z.string().min(1, "Name is required"),
+  value: z
+    .string()
+    .min(1)
+    .regex(/^#/, { message: "Value must start with '#' and be a valid hex code" }),
 });
+
 type ColorsFormValues = z.infer<typeof formSchema>;
+
 const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit color" : "create color";
-  const description = initialData ? "Edit a color" : "Add a new color";
+  const [color, setColor] = useState(initialData?.value || "#aabbcc");
+
+  const title = initialData ? "Edit color" : "Create color";
+  const description = initialData ? "Edit an existing color" : "Add a new color";
   const toastMessage = initialData ? "Color updated" : "Color created";
   const action = initialData ? "Save changes" : "Create";
+
   const form = useForm<ColorsFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      name:"",
-      value:"",
-      
+      name: "",
+      value: "#aabbcc",
     },
   });
-  const params = useParams();
 
+  const params = useParams();
   const router = useRouter();
+
+  // Validate params to avoid runtime errors
+  if (!params?.storeId || (initialData && !params.colorId)) {
+    toast.error("Invalid route parameters");
+    return null;
+  }
+
   const onSubmit = async (data: ColorsFormValues) => {
     try {
       setLoading(true);
-      if (initialData)
-      await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data);
-    else  await axios.post(`/api/${params.storeId}/colors`, data);
-      router.refresh();
-      router.push(`/${params.storeId}/colors`)
+      if (initialData) {
+        await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data);
+      } else {
+        await axios.post(`/api/${params.storeId}/colors`, data);
+      }
+
+      router.push(`/${params.storeId}/colors`);
       toast.success(toastMessage);
     } catch (error) {
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
   };
-  const [color, setColor] = useState(initialData?.value || "#aabbcc");
+
   const onDelete = async () => {
     try {
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`);
-      
+
       router.push(`/${params.storeId}/colors`);
-      toast.success("store deleted");
+      toast.success("Color deleted");
     } catch (error) {
-      toast.error("make sure you remove all product and category");
+      toast.error("Please remove all associated products and categories before deleting the color.");
     } finally {
       setLoading(false);
       setOpen(false);
     }
   };
+
   return (
     <>
-    { open&& <AlertModal
+      <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConform={onDelete}
         loading={loading}
-      />}
-      <div className="flex items-center pb-2 justify-between">
+      />
+      <div className="flex items-center justify-between pb-2">
         <Heading title={title} description={description} />
         {initialData && (
           <Button
             disabled={loading}
             variant="destructive"
-            color="icon"
             onClick={() => setOpen(true)}
           >
             <Trash size={20} />
@@ -110,7 +127,6 @@ const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 mt-8 w-full"
         >
-         
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
@@ -136,22 +152,25 @@ const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Value</FormLabel>
                   <FormControl>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-wrap gap-4">
                       <Input
-                 disabled={loading}
-                 placeholder="Color value"
-                 {...field}
-               />
-                      {/* Color Picker Component */}
-                      <HexColorPicker  color={field.value} onChange={(newColor) => {
-                        setColor(newColor); // Update the color state
-                        field.onChange(newColor); // Update the form field
-                      }} />
+                        disabled={loading}
+                        placeholder="Color value"
+                        {...field}
+                      />
+                      <HexColorPicker 
+                        color={field.value || "#aabbcc"}
+                        onChange={(newColor) => {
+                          setColor(newColor);
+                          field.onChange(newColor);
+                        }}
+                      /> <div
+                      style={{ backgroundColor: color }}
+                      className="h-8 w-8 rounded-full"
+                    ></div>
                     </div>
-                    {/* Display the selected color */}
-                    <div className={`bg-[${color}] h-8 w-8 rounded-full`}></div>
+                   
                   </FormControl>
-                    
                   <FormMessage />
                 </FormItem>
               )}
@@ -167,4 +186,4 @@ const ColorsForm: React.FC<ColorsFormProps> = ({ initialData }) => {
   );
 };
 
-export default ColorsForm;
+export default ColorsForm

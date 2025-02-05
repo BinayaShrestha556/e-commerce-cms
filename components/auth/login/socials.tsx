@@ -23,7 +23,7 @@ export const Social =({admin}:{admin:boolean}) => {
 
   return (
     <div className="flex w-full gap-x-4">
-{  !admin&&    <Button
+  <Button
       type="button"
         variant={"outline"}
         className="flex-1 flex items-center gap-2"
@@ -31,8 +31,8 @@ export const Social =({admin}:{admin:boolean}) => {
         onClick={()=>onClick("google")}
       >
         <FcGoogle className="h-5 w-5 " /> <p>Continue with google</p>
-      </Button>}
-      {admin&&<Button
+      </Button>
+      <Button
       type="button"
         variant={"outline"}
         size="lg"
@@ -40,7 +40,7 @@ export const Social =({admin}:{admin:boolean}) => {
         onClick={() => {onClick("github")}}
       >
         <FaGithub className="h-5 w-5" /> <p>Continue with github</p>
-      </Button>}
+      </Button>
     </div>
   );
 };

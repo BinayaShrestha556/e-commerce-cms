@@ -118,8 +118,8 @@ model Order{
   storeId String
   store Store @relation("StoreToOrder",fields: [storeId],references: [id])
   orderItems OrderItems[]
-  userId String
-  user User @relation(fields: [userId],references: [id])
+  email String
+  
   isPaid Boolean @default(false)
   phone String @default("")
   address String @default("")
@@ -134,8 +134,7 @@ model OrderItems{
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
   sizeId String
-  userId String
-  user User @relation(fields:[userId],references: [id])
+
   size Size @relation(fields:[sizeId],references:[id])
   numberOfItem String
   product Product @relation(fields:[productId],references: [id])
@@ -156,8 +155,8 @@ model User {
   accounts      Account[]
   store         Store[]
   role          UserRole @default(USER)
-  order         Order[]
-  orderItems    OrderItems[]
+ 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
