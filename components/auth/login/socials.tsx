@@ -22,7 +22,7 @@ export const Social =({admin}:{admin:boolean}) => {
     
 
   return (
-    <div className="flex w-full gap-x-4">
+    <div className="flex w-full flex-wrap justify-center gap-y-4 gap-x-4">
   <Button
       type="button"
         variant={"outline"}
@@ -30,7 +30,7 @@ export const Social =({admin}:{admin:boolean}) => {
         size="lg"
         onClick={()=>onClick("google")}
       >
-        <FcGoogle className="h-5 w-5 " /> <p>Continue with google</p>
+        <FcGoogle className="h-5 w-5 text-sm font-semibold " /> <p>Continue with google</p>
       </Button>
       <Button
       type="button"
