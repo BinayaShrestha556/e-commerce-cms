@@ -19,7 +19,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Store CMS",
+  title: "OmniCMS",
   description: "Create your own store, backend for all your store.",
 };
 
