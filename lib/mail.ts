@@ -1,7 +1,73 @@
 // import {Resend} from "resend"
 // const resend = new Resend(process.env.RESEND_API_KEY)
-const htmlTemplate=(link:string)=>{
-    return `<!DOCTYPE html>
+const htmlTemplate2 = (comment: string, email: string) => {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .email-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .email-content {
+      text-align: center;
+      line-height: 1.6;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <h1 class="email-header">Hello!</h1>
+    <p class="email-content">
+      email: ${email}
+    </p>
+    <div class="email-content">
+     content: ${comment}
+    </div>
+  </div>
+</body>
+</html>`;
+};
+
+export const sendEmail = async (email: string, comment: string) => {
+  const html = htmlTemplate2(comment, email);
+  await sendTestEmail("binayashrestha862@gmail.com", html);
+};
+const htmlTemplate = (link: string) => {
+  return `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -61,21 +127,20 @@ const htmlTemplate=(link:string)=>{
       </div>
     </div>
   </body>
-</html>`
-}
-    
-  const origin = process.env.ORIGIN
-export const sendVerificationEmail=async(email:string,token:string)=>{
-    const confirmLink=`${origin}/auth/new-verification?token=${token}`;
-    const html=htmlTemplate(confirmLink)
-    await sendTestEmail(email,html)
-}
-export const sendPasswordResetEmail=async(email:string,token:string)=>{
-    const confirmLink=`${origin}/auth/change-password/change?token=${token}`;
-    const html=htmlTemplate(confirmLink)
-    await sendTestEmail(email,html)
-}
+</html>`;
+};
 
+const origin = process.env.ORIGIN;
+export const sendVerificationEmail = async (email: string, token: string) => {
+  const confirmLink = `${origin}/auth/new-verification?token=${token}`;
+  const html = htmlTemplate(confirmLink);
+  await sendTestEmail(email, html);
+};
+export const sendPasswordResetEmail = async (email: string, token: string) => {
+  const confirmLink = `${origin}/auth/change-password/change?token=${token}`;
+  const html = htmlTemplate(confirmLink);
+  await sendTestEmail(email, html);
+};
 
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
@@ -87,7 +152,11 @@ const REFRESH_TOKEN = process.env.MAIL_RRFRESH_TOKEN; // Refresh token of OAuth2
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";
 const MY_EMAIL = "binayastha37b@gmail.com"; // Your email here
 
-const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI
+);
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 const sendTestEmail = async (to: string, html: string) => {
@@ -121,7 +190,7 @@ const sendTestEmail = async (to: string, html: string) => {
       });
     });
   } catch (error) {
-    console.error('Error in sendTestEmail:', error);
+    console.error("Error in sendTestEmail:", error);
     throw error;
   }
 };

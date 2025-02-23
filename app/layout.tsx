@@ -5,6 +5,7 @@ import "./globals.css";
 import { ModalProvider } from "@/providers/modal-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import Footer from "@/components/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system">
           <ToastProvider />
           <ModalProvider /> {children}
+          <Footer />
         </ThemeProvider>{" "}
       </body>
     </html>
