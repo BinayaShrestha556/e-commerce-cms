@@ -4,8 +4,9 @@ import "./globals.css";
 // import { ClerkProvider } from "@clerk/nextjs";
 import { ModalProvider } from "@/providers/modal-provider";
 import { ToastProvider } from "@/providers/toast-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
+
 import Footer from "@/components/footer";
+import { headers } from "next/headers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,16 +29,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = headers().get("theme") || "light";
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+        className={`${geistSans.variable}  ${theme} ${geistMono.variable} antialiased `}
       >
-        <ThemeProvider attribute="class" defaultTheme="system">
-          <ToastProvider />
-          <ModalProvider /> {children}
-          <Footer />
-        </ThemeProvider>{" "}
+        <ToastProvider />
+        <ModalProvider />
+        {children}
+        <Footer />
       </body>
     </html>
   );

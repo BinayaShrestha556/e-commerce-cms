@@ -6,26 +6,32 @@ import {
   authRoutes,
   publicRoutes,
 } from "@/routes";
+import { NextResponse } from "next/server";
 const { auth } = NextAuth(authConfig);
 export default auth((req) => {
+  const theme = req.cookies.get("mode")?.value || "light";
+  const response = NextResponse.next();
+
+  response.headers.set("theme", theme);
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   if (isApiRoute) {
-    return ;
+    return;
   }
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
 
-    return ;
+    return response;
   }
-  if(!isLoggedIn&&!isPublicRoute){
-    return Response.redirect(new URL("/auth/login",nextUrl))
+  if (!isLoggedIn && !isPublicRoute) {
+    return NextResponse.redirect(new URL("/auth/login", nextUrl));
   }
+  return response;
 });
 export const config = {
   matcher: [
