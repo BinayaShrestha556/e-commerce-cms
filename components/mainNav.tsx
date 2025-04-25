@@ -4,11 +4,15 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import Sidebar from "./sidebar";
 import { useEffect, useState } from "react";
+import { Store } from "@prisma/client";
 
 export const MainNav = ({
   className,
-  
-}: React.HtmlHTMLAttributes<HTMLElement>) => {
+  storeData,
+}: {
+  className?: string;
+  storeData: Store[];
+}) => {
   const pathname = usePathname();
   const param = useParams();
   const routes = [
@@ -49,10 +53,10 @@ export const MainNav = ({
       active: pathname === `/${param.storeId}/orders`,
     },
     {
-      href:`/${param.storeId}/api`,
-      label:"Api",
-      active:pathname===`/${param.storeId}/api`
-    }
+      href: `/${param.storeId}/api`,
+      label: "Api",
+      active: pathname === `/${param.storeId}/api`,
+    },
   ];
   const [isMounted, setIsmounted] = useState(false);
   useEffect(() => {
@@ -82,7 +86,7 @@ export const MainNav = ({
         ))}
       </div>
       <div className="md:hidden ">
-        <Sidebar routes={routes} />
+        <Sidebar routes={routes} storeData={storeData} />
       </div>
     </div>
   );

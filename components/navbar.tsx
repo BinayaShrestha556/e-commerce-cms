@@ -21,11 +21,13 @@ const Navbar = async () => {
   return (
     <div className="border-b h-12 flex items-center px-5 w-full ">
       <p className="font-serif text-2xl font-bold tracking-tighter ">OmniCMS</p>
-      <div className=" flex-1 flex justify-end md:justify-start pr-2">
-        <MainNav />
+      <div className=" flex-1 flex justify-end md:justify-start md:px-1">
+        <MainNav storeData={stores} />
       </div>
-      <div className="flex items-center gap-4">
-        <StoreSwitcher items={stores} />
+      <div className="flex items-center gap-2 md:gap-4">
+        <div className="hidden w-48 md:block">
+          <StoreSwitcher items={stores} />
+        </div>
         <SessionProvider>
           <UserOptions />
         </SessionProvider>

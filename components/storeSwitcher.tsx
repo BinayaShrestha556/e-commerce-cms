@@ -5,7 +5,12 @@ import { useStoreModal } from "@/hooks/use-store-modal";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Check, ChevronsUpDown, PlusCircle, Store as StoreIcon } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  PlusCircle,
+  Store as StoreIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverContent } from "@radix-ui/react-popover";
 import {
@@ -24,7 +29,7 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<
 interface StoreSwitcherProps extends PopoverTriggerProps {
   items: Store[];
 }
-function StoreSwitcher({  items = [] }: StoreSwitcherProps) {
+function StoreSwitcher({ items = [] }: StoreSwitcherProps) {
   const storeModal = useStoreModal();
   const params = useParams();
   const router = useRouter();
@@ -40,10 +45,10 @@ function StoreSwitcher({  items = [] }: StoreSwitcherProps) {
     setOpen(false);
     router.push(`/${store.value}`);
   };
-    const [isMounted, setIsmounted] = useState(false);
-    useEffect(() => {
-      setIsmounted(true);
-    }, []);  
+  const [isMounted, setIsmounted] = useState(false);
+  useEffect(() => {
+    setIsmounted(true);
+  }, []);
   if (!isMounted) return null;
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -54,42 +59,52 @@ function StoreSwitcher({  items = [] }: StoreSwitcherProps) {
           role="combobox"
           aria-expanded={open}
           aria-label="select a store"
-          className={cn("w-[200px] justify-between")}
+          className={cn("w-full justify-between")}
         >
           <StoreIcon className="mr-2 h-4 w-4" />
-        {currentStore?.label}
+          {currentStore?.label}
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] mt-2  p-0">
-        <Command >
+        <Command>
           <CommandList>
             <CommandInput placeholder="search store..." />
             <CommandEmpty>no store found</CommandEmpty>
             <CommandGroup heading="Stores">
               {formattedItems.map((store) => (
-                <CommandItem onSelect={()=>onStoreSelect(store)} key={store.value}>
-                  <StoreIcon className="mr-2 h-4 w-4"/>{store.label}
-                  <Check className={cn("ml-auto h-4 w-4 ", currentStore?.value===store.value?"opacity-100":"opacity-0")}/>
-                  </CommandItem>
+                <CommandItem
+                  onSelect={() => onStoreSelect(store)}
+                  key={store.value}
+                >
+                  <StoreIcon className="mr-2 h-4 w-4" />
+                  {store.label}
+                  <Check
+                    className={cn(
+                      "ml-auto h-4 w-4 ",
+                      currentStore?.value === store.value
+                        ? "opacity-100"
+                        : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
               ))}
             </CommandGroup>
           </CommandList>
-          <CommandSeparator/>
+          <CommandSeparator />
           <CommandList>
             <CommandGroup>
-              <CommandItem onSelect={()=>{
-                setOpen(false);
-                storeModal.onOpen();
-              }}>
-                <PlusCircle className="mr-2 h-2 w-5"/>
+              <CommandItem
+                onSelect={() => {
+                  setOpen(false);
+                  storeModal.onOpen();
+                }}
+              >
+                <PlusCircle className="mr-2 h-2 w-5" />
                 create store
               </CommandItem>
             </CommandGroup>
           </CommandList>
-
-        
-          
         </Command>
       </PopoverContent>
     </Popover>
