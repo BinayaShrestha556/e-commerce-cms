@@ -19,7 +19,7 @@ const Navbar = async () => {
     },
   });
   return (
-    <div className="border-b h-12 flex items-center px-5 w-full ">
+    <div className="fixed bg-background border-b h-12 flex items-center px-5 w-full ">
       <p className="font-serif text-2xl font-bold tracking-tighter ">OmniCMS</p>
       <div className=" flex-1 flex justify-end md:justify-start md:px-1">
         <MainNav storeData={stores} />
