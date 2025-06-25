@@ -2,13 +2,12 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import Sidebar from "./sidebar";
+
 import { useEffect, useState } from "react";
 import { Store } from "@prisma/client";
 
 export const MainNav = ({
   className,
-  storeData,
 }: {
   className?: string;
   storeData: Store[];
@@ -84,9 +83,6 @@ export const MainNav = ({
             {e.label}
           </Link>
         ))}
-      </div>
-      <div className="md:hidden ">
-        <Sidebar routes={routes} storeData={storeData} />
       </div>
     </div>
   );

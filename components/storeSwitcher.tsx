@@ -59,7 +59,7 @@ function StoreSwitcher({ items = [] }: StoreSwitcherProps) {
           role="combobox"
           aria-expanded={open}
           aria-label="select a store"
-          className={cn("w-full text-sm justify-between")}
+          className={cn("w-full gap-2 text-sm justify-between")}
         >
           <StoreIcon className="mr-2 h-4 w-4 " />
           {currentStore?.label}

@@ -40,9 +40,9 @@ export default async function DashboardLayout({
     redirect("/");
   }
   return (
-    <div className="lg:w-[95%] m-auto">
+    <>
       <Navbar />
-      <div className="pt-12">{children}</div>
-    </div>
+      <div className=" lg:w-[95%]  m-auto ">{children}</div>
+    </>
   );
 }
